@@ -12,7 +12,15 @@
 
 Users cannot negotiate product prices and arrange delivery in one place, leading to a fragmented and inefficient buying experience.
 
+Traditional e-commerce platforms operate on fixed pricing models and do not support real-world practices like price negotiation or bulk deal-making. At the same time, delivery and logistics services are handled through separate systems, forcing users to switch between multiple platforms to complete a single transaction.
+
+This fragmented process creates inefficiencies, reduces transparency, and limits the ability of users—especially small businesses—to secure better deals and manage delivery smoothly. As a result, the overall buying experience becomes inconvenient and disconnected.
+
+There is a clear need for a unified solution that integrates **price negotiation, deal management, and delivery booking** into a single seamless workflow.
+
+
 ---
+
 
 ## 💡 Solution
 
