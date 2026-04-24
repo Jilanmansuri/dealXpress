@@ -39,7 +39,7 @@ const Login = () => {
     if (isSuccess || user) {
       toast.success('Welcome back to DealXpress!');
       setTimeout(() => {
-        navigate('/');
+        navigate('/marketplace');
         dispatch(reset());
       }, 1500);
     }
