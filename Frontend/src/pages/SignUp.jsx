@@ -42,7 +42,7 @@ const SignUp = () => {
     if (isSuccess) {
       toast.success('Account Created Successfully!');
       setTimeout(() => {
-        navigate('/');
+        navigate('/marketplace');
         dispatch(reset());
       }, 2000); // Small delay to let the user see the message
     }
