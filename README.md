@@ -1,182 +1,127 @@
-# 🚀 DealXpress
+# 🚀 DealXpress - Smart Marketplace & Logistics Platform
 
-🔗 **Figma Design :**  https://www.figma.com/design/pcZTA0YGwea3f4Zh6a7W9A/DealXpress?node-id=0-1&t=fa1ld6Br2HxuwlV2-0
+![DealXpress Hero](file:///C:/Users/Anas8/.gemini/antigravity/brain/7aaa89c2-5dcf-4c33-a919-e353ac4180ed/dealxpress_hero_1777534627054.png)
 
----
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://deal-xpress.vercel.app)
+[![Render](https://img.shields.io/badge/Deployed%20on-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://dealxpress.onrender.com)
+[![Figma](https://img.shields.io/badge/Design-Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/design/pcZTA0YGwea3f4Zh6a7W9A/DealXpress?node-id=0-1&t=fa1ld6Br2HxuwlV2-0)
 
-**DealXpress** is a full-stack marketplace platform that enables users to negotiate product prices and seamlessly book delivery within a single workflow, eliminating the gap between deal-making and logistics.
-
----
-
-## 🧠 Problem Statement
-
-Users cannot negotiate product prices and arrange delivery in one place, leading to a fragmented and inefficient buying experience.
-
-Traditional e-commerce platforms operate on fixed pricing models and do not support real-world practices like price negotiation or bulk deal-making. At the same time, delivery and logistics services are handled through separate systems, forcing users to switch between multiple platforms to complete a single transaction.
-
-This fragmented process creates inefficiencies, reduces transparency, and limits the ability of users—especially small businesses—to secure better deals and manage delivery smoothly. As a result, the overall buying experience becomes inconvenient and disconnected.
-
-There is a clear need for a unified solution that integrates **price negotiation, deal management, and delivery booking** into a single seamless workflow.
-
+🔗 **Figma Design:** [Click here to view](https://www.figma.com/design/pcZTA0YGwea3f4Zh6a7W9A/DealXpress?node-id=0-1&t=fa1ld6Br2HxuwlV2-0)
 
 ---
 
+**DealXpress** is a premium full-stack marketplace that bridges the gap between price negotiation and logistics. It allows users to browse products, negotiate prices in real-time, and instantly book delivery once a deal is struck—all within a single, seamless workflow.
 
-## 💡 Solution
-
-DealXpress provides a unified platform where users can:
-
-* Browse products
-* Negotiate prices using a **Make Offer** system
-* Track offer status
-* Book delivery instantly after deal confirmation
+## 🔗 Live Demo
+- **Frontend (UI):** [https://deal-xpress.vercel.app](https://deal-xpress.vercel.app)
+- **Backend (API):** [https://dealxpress.onrender.com](https://dealxpress.onrender.com)
+- **Figma Design:** [View Design on Figma](https://www.figma.com/design/pcZTA0YGwea3f4Zh6a7W9A/DealXpress?node-id=0-1&t=fa1ld6Br2HxuwlV2-0)
 
 ---
 
-## ✨ Features
+## 💡 The Problem & Solution
 
-### 🛒 Marketplace
+**The Problem:**
+Traditional e-commerce platforms have fixed pricing and disconnected logistics. Users often have to haggle elsewhere and then find a separate delivery service, leading to friction and lack of transparency.
 
-* Product listing with search & filters
-* Clean card-based UI
+**The Solution:**
+DealXpress integrates **Price Negotiation (Make Offer)** and **Instant Delivery Booking** into one platform. It's designed for efficiency, transparency, and a premium user experience.
 
-### 💰 Negotiation System
+---
 
-* Make Offer functionality
-* Offer status (Pending / Accepted / Rejected)
+## ✨ Key Features
 
-### 📊 Dashboard
+### 🛒 Dynamic Marketplace
+*   **Smart Discovery:** Product listings with advanced search and category filtering.
+*   **Premium UI:** Glassmorphic design with skeleton loaders and smooth transitions (Framer Motion).
 
-* Manage all offers and orders
-* Filter & track deal status
+### 🤝 Real-time Negotiation
+*   **Make Offer:** Buyers can propose prices directly to sellers.
+*   **Offer Lifecycle:** Real-time status updates (Pending → Accepted/Rejected/Countered).
+*   **Socket Integration:** Instant notifications for offer activities.
 
-### 🚚 Delivery Module
+### 🚚 Integrated Logistics
+*   **Instant Quote:** Enter pickup and drop-off points for immediate delivery cost estimation.
+*   **One-Click Booking:** Seamlessly transition from a closed deal to a booked delivery.
+*   **Step-by-Step Tracking:** Monitor the progress of your delivery in real-time.
 
-* Pickup & drop input
-* Delivery cost estimation
-* Booking system
-
-### 📍 Tracking System
-
-* Step-based delivery tracking
-
-### 🔔 Notifications
-
-* Offer updates
-* Delivery updates
-
-  Etc.
+### 📊 Comprehensive Dashboard
+*   **Unified View:** Manage all your offers, orders, and delivery statuses in one place.
+*   **Analytics:** Visual data representation using Recharts for better decision-making.
 
 ---
 
 ## 🧱 Tech Stack
 
-**Frontend:**
-React (Vite), Tailwind CSS, MUI, Redux Toolkit
-
-**Backend:**
-Node.js, Express.js
-
-**Database:**
-MongoDB
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | React 19, Vite, Tailwind CSS 4, Redux Toolkit, Framer Motion, Spline (3D), Lucide Icons |
+| **Backend** | Node.js, Express 5, Socket.io, JWT, Google OAuth, Express-Async-Handler |
+| **Database** | MongoDB, Mongoose |
+| **Logistics** | Custom Delivery Estimator & Tracking System |
 
 ---
 
 ## 📁 Project Structure
 
 ### 🖥️ Frontend
-
 ```bash
-frontend/
+Frontend/
 ├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── features/
-│   ├── hooks/
-│   ├── services/
-│   ├── utils/
-│   ├── layouts/
-│   ├── routes/
-│   ├── assets/
-│   ├── App.jsx
-│   └── main.jsx
+│   ├── features/      # Redux slices & logic (Negotiation, Auth, Product)
+│   ├── components/    # Reusable UI components
+│   ├── pages/         # Screen-level components
+│   ├── services/      # API abstraction layers
+│   ├── hooks/         # Custom React hooks
+│   └── assets/        # Lottie animations & images
 ```
 
 ### ⚙️ Backend
-
 ```bash
-backend/
+Backend/
 ├── src/
-│   ├── controllers/
-│   ├── routes/
-│   ├── models/
-│   ├── middlewares/
-│   ├── services/
-│   ├── utils/
-│   ├── config/
-│   ├── sockets/
-│   └── server.js
+│   ├── controllers/   # Business logic
+│   ├── models/        # Mongoose schemas
+│   ├── routes/        # API endpoints
+│   ├── middlewares/   # Auth & Error handling
+│   ├── sockets/       # Real-time event handlers
+│   └── config/        # Database & Environment setup
 ```
 
 ---
 
-## 🔄 User Flow
+## ⚙️ Installation & Setup
 
-Login → Marketplace → Product Detail → Make Offer → Dashboard → Delivery → Tracking
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/Jilanmansuri/dealXpress.git
+    cd dealXpress
+    ```
 
----
+2.  **Frontend Setup:**
+    ```bash
+    cd Frontend
+    npm install
+    npm run dev
+    ```
 
-## ⚙️ Installation
-
-```bash
-git clone https://github.com/your-username/dealxpress.git
-cd dealxpress
-npm install
-npm run dev
-```
-
----
-
-## 🧩 Key Concepts
-
-* Feature-based architecture
-* Redux state management
-* Protected routing
-* API abstraction
-* Form validation
+3.  **Backend Setup:**
+    ```bash
+    cd Backend
+    npm install
+    # Create a .env file with your MONGO_URI, JWT_SECRET, etc.
+    npm run dev
+    ```
 
 ---
 
-## 🎨 UI/UX Highlights
+## 📬 Contact & Support
 
-* Responsive design
-* Skeleton loaders
-* Error & empty states
-* Consistent design system
-
----
-
-## ⚡ Performance
-
-* Lazy loading
-* Optimized rendering
+**Jilan Mansuri**
+📧 [jilan2410@gmail.com](mailto:jilan2410@gmail.com)
+🌐 [DealXpress Live](https://deal-xpress.vercel.app)
 
 ---
 
-## 🔮 Future Improvements
-
-* Real-time updates (Socket.io)
-* Payment integration
-* Live tracking
-
----
-
-## 📬 Contact
-
-📧 Email : [jilan2410@gmail.com](mailto:jilan2410@gmail.com)
-
----
-
-## 📜 Author
-
-Jilan Mansuri
+## 📜 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
