@@ -4,8 +4,12 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { X, MapPin, User, Phone, CheckCircle2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-const CheckoutModal = ({ isOpen, onClose, deal, offerAmount, onBookingComplete }) => {
+const CheckoutModal = ({ isOpen, onClose, deal, offerAmount, negotiationId, negotiation, onBookingComplete }) => {
+  const { user: authUser } = useSelector((state) => state.auth);
+
   const formik = useFormik({
     initialValues: {
       fullName: '',
@@ -23,14 +27,41 @@ const CheckoutModal = ({ isOpen, onClose, deal, offerAmount, onBookingComplete }
       zipCode: Yup.string().matches(/^[0-9]{5,6}$/, 'Must be a valid ZIP code').required('ZIP code is required'),
       phone: Yup.string().matches(/^[0-9]{10}$/, 'Must be a valid 10-digit phone number').required('Phone is required')
     }),
-    onSubmit: (values, { setSubmitting }) => {
-      // Simulate API Call
-      setTimeout(() => {
-        setSubmitting(false);
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${authUser.token}`,
+          },
+        };
+
+        const orderData = {
+          // Use IDs from negotiation object as they are confirmed MongoDB ObjectIds
+          productId: negotiation?.product?._id || negotiation?.product || deal.id || deal._id,
+          productName: deal.title || deal.productData?.name,
+          productImage: deal.image || deal.productData?.image,
+          amount: offerAmount || deal.price || deal.originalPrice,
+          negotiationId: negotiationId,
+          sellerId: negotiation?.seller?._id || negotiation?.seller || deal.sellerId || deal.seller,
+          shippingAddress: {
+            street: values.address,
+            city: values.city,
+            state: values.state,
+            zipCode: values.zipCode,
+            country: 'India' // Default for now
+          }
+        };
+
+        const { data } = await axios.post('/api/orders', orderData, config);
+        
         toast.success('Order placed successfully!');
-        if (onBookingComplete) onBookingComplete(values);
+        if (onBookingComplete) onBookingComplete(data);
         onClose();
-      }, 1500);
+      } catch (error) {
+        toast.error(error.response?.data?.message || 'Failed to place order');
+      } finally {
+        setSubmitting(false);
+      }
     }
   });
 

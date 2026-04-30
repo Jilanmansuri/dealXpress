@@ -1,49 +1,56 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Lottie from 'lottie-react';
-import axios from 'axios';
-import { saveOrder } from '../features/orders/ordersSlice';
-import ProductSidebar from '../components/negotiations/ProductSidebar';
-import ChatBox from '../components/negotiations/ChatBox';
-import CheckoutModal from '../components/negotiations/CheckoutModal';
 import { toast } from 'react-hot-toast';
+import { 
+  getNegotiationMessages, 
+  addMessage, 
+  updateNegotiation,
+  startNegotiation 
+} from '../features/negotiation/negotiationSlice';
 import { 
   initiateSocketConnection, 
   disconnectSocket, 
-  joinNegotiationRoom, 
+  joinRoom, 
   subscribeToMessages, 
   subscribeToOffers, 
-  sendMessage, 
-  emitTyping, 
-  subscribeToTyping 
-} from '../utils/socket';
+  subscribeToResponses,
+  subscribeToTyping,
+  emitTyping 
+} from '../app/socket';
+import negotiationService from '../features/negotiation/negotiationService';
 
-// Lottie Animations
+import ProductSidebar from '../components/negotiations/ProductSidebar';
+import ChatBox from '../components/negotiations/ChatBox';
+import CheckoutModal from '../components/negotiations/CheckoutModal';
+
 const TYPING_LOTTIE = "https://lottie.host/76672322-19e4-44b4-8f92-563b7e4113e1/Y2N9z7m0tC.json";
 const SUCCESS_LOTTIE = "https://lottie.host/80e9a7e6-773a-449e-8c3b-715132537c68/qK6uG7pX9O.json";
 
 const NegotiationRoom = () => {
+  const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.auth);
   
-  const [negotiation, setNegotiation] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const { user } = useSelector((state) => state.auth);
+  const { messages, currentNegotiation, isLoading } = useSelector((state) => state.negotiation);
+  
   const [inputMessage, setInputMessage] = useState('');
   const [offerAmount, setOfferAmount] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
+  const [isRemoteTyping, setIsRemoteTyping] = useState(false);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const messagesEndRef = useRef(null);
-
+  const typingTimeoutRef = useRef(null);
+  
   const [typingAnimation, setTypingAnimation] = useState(null);
   const [successAnimation, setSuccessAnimation] = useState(null);
 
-  const deal = location.state?.deal || null;
+  const deal = location.state?.deal || currentNegotiation;
 
-  // Lottie Fetch
+  // Fetch Lottie JSONs
   useEffect(() => {
     fetch(TYPING_LOTTIE).then(res => res.json()).then(data => setTypingAnimation(data));
     fetch(SUCCESS_LOTTIE).then(res => res.json()).then(data => setSuccessAnimation(data));
@@ -51,100 +58,100 @@ const NegotiationRoom = () => {
 
   // Socket Connection
   useEffect(() => {
-    if (user) {
-      initiateSocketConnection(user._id);
+    if (user?.token) {
+      initiateSocketConnection(user.token);
+      
+      subscribeToMessages((err, msg) => {
+        if (msg) dispatch(addMessage(msg));
+      });
+      
+      subscribeToOffers((err, data) => {
+        if (data) {
+          dispatch(updateNegotiation(data.negotiation));
+          dispatch(addMessage(data.message));
+          toast.success("New offer received!");
+        }
+      });
+      
+      subscribeToResponses((err, data) => {
+        if (data) {
+          dispatch(updateNegotiation(data.negotiation));
+          dispatch(addMessage(data.message));
+          toast(data.action === 'accept' ? "Offer Accepted!" : "Offer Rejected", {
+            icon: data.action === 'accept' ? '🎉' : '❌'
+          });
+        }
+      });
+
+      subscribeToTyping((err, data) => {
+        if (data.userId !== user._id) {
+          setIsRemoteTyping(data.isTyping);
+        }
+      });
+
+      return () => {
+        disconnectSocket();
+      };
     }
-    return () => disconnectSocket();
-  }, [user]);
+  }, [user, dispatch]);
 
-  // Initialize Negotiation
+  // Join room and fetch history
   useEffect(() => {
-    if (!deal) {
-      navigate('/marketplace');
-      return;
+    const negotiationId = id || currentNegotiation?._id;
+    if (negotiationId) {
+      joinRoom(negotiationId);
+      dispatch(getNegotiationMessages(negotiationId));
+    } else if (deal) {
+      // If we don't have an ID but have a deal, it might be a new negotiation
+      const cleanPrice = typeof (deal.price || deal.originalPrice) === 'string' 
+        ? parseFloat((deal.price || deal.originalPrice).replace(/[^0-9.]/g, ''))
+        : (deal.price || deal.originalPrice);
+
+      dispatch(startNegotiation({
+        productId: deal.id || deal._id,
+        sellerId: deal.sellerId || deal.seller?._id || deal.seller,
+        productName: deal.title || deal.productData?.name,
+        productImage: deal.image || deal.productData?.image,
+        originalPrice: cleanPrice
+      }));
     }
+  }, [id, currentNegotiation?._id, deal, dispatch]);
 
-    const init = async () => {
-      try {
-        const res = await axios.post('/api/negotiations', {
-          productId: deal._id || deal.id,
-          sellerId: deal.seller?._id || deal.sellerId,
-          originalPrice: deal.price
-        });
-        
-        setNegotiation(res.data);
-        setMessages(res.data.messages || []);
-        joinNegotiationRoom(res.data._id);
-      } catch (err) {
-        console.error("Init error:", err);
-        toast.error("Failed to start negotiation");
-      }
-    };
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-    init();
-  }, [deal, navigate]);
-
-  // Socket Subscriptions
   useEffect(() => {
-    subscribeToMessages((err, msg) => {
-      if (msg) setMessages(prev => [...prev, msg]);
-    });
+    scrollToBottom();
+  }, [messages, isRemoteTyping]);
 
-    subscribeToOffers((err, data) => {
-      if (data.offer) {
-        setNegotiation(prev => ({
-          ...prev,
-          offers: [...(prev.offers || []), data.offer]
-        }));
-        toast.success("New offer received!");
-      }
-      if (data.status) {
-        setNegotiation(prev => ({
-          ...prev,
-          status: data.status === 'accepted' ? 'accepted' : prev.status,
-          offers: prev.offers.map(o => o._id === data.offerId ? { ...o, status: data.status } : o)
-        }));
-        if (data.status === 'accepted') toast.success("Offer accepted!");
-      }
-    });
-
-    subscribeToTyping((err, data) => {
-      if (data.userId !== user?._id) {
-        setIsTyping(true);
-        setTimeout(() => setIsTyping(false), 3000);
-      }
-    });
-  }, [user]);
+  const handleTyping = (e) => {
+    setInputMessage(e.target.value);
+    
+    emitTyping(currentNegotiation?._id, true);
+    
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    
+    typingTimeoutRef.current = setTimeout(() => {
+      emitTyping(currentNegotiation?._id, false);
+    }, 2000);
+  };
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!inputMessage.trim() && !offerAmount) return;
+    const negId = currentNegotiation?._id;
+    if (!negId) return;
 
     if (offerAmount) {
       try {
-        const res = await axios.post(`/api/negotiations/${negotiation._id}/offer`, {
-          amount: parseFloat(offerAmount),
-          durationHours: 24
-        });
-        setNegotiation(res.data);
+        await negotiationService.submitOffer(negId, offerAmount, user.token);
         setOfferAmount('');
       } catch (err) {
-        toast.error("Failed to make offer");
+        toast.error(err.response?.data?.message || "Failed to submit offer");
       }
-    }
-
-    if (inputMessage.trim()) {
-      const msgData = {
-        negotiationId: negotiation._id,
-        senderId: user._id,
-        text: inputMessage,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      
+    } else if (inputMessage.trim()) {
       try {
-        await axios.put(`/api/negotiations/${negotiation._id}/message`, { text: inputMessage });
-        sendMessage(msgData);
-        setMessages(prev => [...prev, { ...msgData, sender: 'user' }]);
+        await negotiationService.sendMessage(negId, inputMessage, user.token);
         setInputMessage('');
       } catch (err) {
         toast.error("Failed to send message");
@@ -152,65 +159,59 @@ const NegotiationRoom = () => {
     }
   };
 
-  const handleRespondToOffer = async (offerId, status) => {
+  const handleOfferResponse = async (action) => {
     try {
-      const res = await axios.put(`/api/negotiations/${negotiation._id}/offer/${offerId}`, { status });
-      setNegotiation(res.data);
-      toast.success(`Offer ${status}`);
+      await negotiationService.respondToOffer(currentNegotiation._id, action, user.token);
     } catch (err) {
-      toast.error(`Failed to ${status} offer`);
+      toast.error("Failed to respond to offer");
     }
   };
 
-  const handleTyping = () => {
-    if (negotiation) emitTyping(negotiation._id, user._id);
-  };
+  if (!deal && !currentNegotiation) return <div className="p-8 text-center">Loading negotiation...</div>;
 
-  const currentOffer = negotiation?.offers?.slice().reverse().find(o => o.status === 'pending');
-  const isAccepted = negotiation?.status === 'accepted';
-
-  if (!deal || !negotiation) return <div className="h-screen flex items-center justify-center font-bold text-gray-400">Loading Negotiation...</div>;
+  const isAccepted = currentNegotiation?.status === 'accepted';
+  const isSeller = (currentNegotiation?.seller?._id || currentNegotiation?.seller)?.toString() === user?._id?.toString();
 
   return (
-    <div className="h-[calc(100vh-80px)] lg:h-[calc(100vh-120px)] flex flex-col lg:flex-row gap-6 relative">
+    <div className="h-[calc(100vh-64px)] lg:h-[calc(100vh-120px)] flex flex-col lg:flex-row gap-4 lg:gap-6 relative p-2 md:p-6 lg:p-0">
       {isAccepted && successAnimation && (
         <div className="absolute inset-0 z-50 pointer-events-none flex items-center justify-center">
-          <div className="w-96 h-96">
+          <div className="w-64 h-64 md:w-96 md:h-96">
             <Lottie animationData={successAnimation} loop={false} />
           </div>
         </div>
       )}
       
-      <ProductSidebar 
-        deal={deal} 
-        negotiation={negotiation}
-        currentOffer={currentOffer}
-        onBack={() => navigate(-1)} 
-        onRespond={handleRespondToOffer}
-      />
+      <ProductSidebar deal={deal} onBack={() => navigate(-1)} />
       
-      <div className="flex-1 flex flex-col relative">
+      <div className="flex-1 flex flex-col relative min-h-0">
         <ChatBox 
-          messages={messages}
-          isTyping={isTyping}
+          messages={messages.map(m => ({
+            ...m,
+            sender: (m.sender?._id || m.sender)?.toString() === user?._id?.toString() ? 'user' : 'other',
+            timestamp: new Date(m.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          }))}
+          isTyping={isRemoteTyping}
           inputMessage={inputMessage}
-          setInputMessage={setInputMessage}
+          setInputMessage={handleTyping}
           offerAmount={offerAmount}
           setOfferAmount={setOfferAmount}
           handleSendMessage={handleSendMessage}
-          handleTyping={handleTyping}
           messagesEndRef={messagesEndRef}
           isAccepted={isAccepted}
           onCheckoutClick={() => setShowCheckoutModal(true)}
-          currentUserId={user?._id}
+          currentNegotiation={currentNegotiation}
+          isSeller={isSeller}
+          onRespond={handleOfferResponse}
+          isLoading={isLoading}
         />
         
-        {isTyping && typingAnimation && (
-          <div className="absolute bottom-24 left-8 flex items-center gap-2 bg-white px-4 py-2 rounded-2xl shadow-sm border border-gray-100">
-            <div className="w-12 h-6">
+        {isRemoteTyping && typingAnimation && (
+          <div className="absolute bottom-28 md:bottom-32 left-4 md:left-8 flex items-center gap-2 bg-white px-3 py-1.5 rounded-2xl shadow-md border border-gray-100 z-10 scale-90 md:scale-100 origin-left">
+            <div className="w-10 h-5">
               <Lottie animationData={typingAnimation} />
             </div>
-            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Someone is typing</span>
+            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Typing...</span>
           </div>
         )}
       </div>
@@ -219,7 +220,9 @@ const NegotiationRoom = () => {
         isOpen={showCheckoutModal}
         onClose={() => setShowCheckoutModal(false)}
         deal={deal}
-        offerAmount={negotiation.offers.find(o => o.status === 'accepted')?.amount}
+        negotiation={currentNegotiation}
+        negotiationId={currentNegotiation?._id}
+        offerAmount={currentNegotiation?.lastOffer?.value}
         onBookingComplete={() => navigate('/delivery')}
       />
     </div>
