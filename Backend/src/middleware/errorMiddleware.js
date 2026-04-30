@@ -5,16 +5,20 @@ const notFound = (req, res, next) => {
 };
 
 const errorHandler = (err, req, res, next) => {
+  console.error(`[Error] ${err.message}`);
+  if (err.stack) console.error(err.stack);
+
   let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   let message = err.message;
 
-  // Check for Mongoose bad ObjectId
+  // If Mongoose bad ObjectId error
   if (err.name === 'CastError' && err.kind === 'ObjectId') {
-    statusCode = 404;
-    message = 'Resource not found';
+    statusCode = 400;
+    message = 'Invalid ID format';
   }
 
   res.status(statusCode).json({
+    success: false,
     message,
     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
   });
