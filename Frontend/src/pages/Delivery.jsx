@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import SEO from '../components/common/SEO';
 
 const Delivery = () => {
   const { user } = useSelector((state) => state.auth);
@@ -79,6 +80,10 @@ const Delivery = () => {
 
   return (
     <div className="space-y-8 pb-10">
+      <SEO 
+        title="Delivery Tracking" 
+        description="Track your active shipments and orders in real-time on DealXpress. Monitor every step of your delivery." 
+      />
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>

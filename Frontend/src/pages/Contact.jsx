@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, MessageCircle, CheckCircle2 } from 'lucide-react';
 import emailjs from 'emailjs-com';
 import { toast } from 'react-hot-toast';
+import SEO from '../components/common/SEO';
 
 const Contact = () => {
   const formRef = useRef();
@@ -45,6 +46,10 @@ const Contact = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
+      <SEO 
+        title="Contact Us" 
+        description="Have questions or need support? Contact the DealXpress team for help with your negotiations, account, or logistics." 
+      />
       <div className="text-center mb-16">
         <h1 className="text-4xl font-black text-gray-900 mb-4 tracking-tight">Get in Touch</h1>
         <p className="text-lg text-gray-500 max-w-2xl mx-auto">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Filter, ChevronDown, Loader2 } from 'lucide-react';
 import DealCard from '../components/dashboard/DealCard';
+import SEO from '../components/common/SEO';
 
 const Marketplace = () => {
   const [deals, setDeals] = useState([]);
@@ -100,6 +101,10 @@ const Marketplace = () => {
 
   return (
     <div className="space-y-8">
+      <SEO 
+        title="Marketplace" 
+        description="Browse premium products and surplus inventory on DealXpress. Negotiate for the best deals on B2B assets." 
+      />
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-[28px] font-bold text-gray-900 tracking-tight mb-1">Marketplace</h1>

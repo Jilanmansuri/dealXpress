@@ -20,6 +20,7 @@ import {
   emitTyping 
 } from '../app/socket';
 import negotiationService from '../features/negotiation/negotiationService';
+import SEO from '../components/common/SEO';
 
 import ProductSidebar from '../components/negotiations/ProductSidebar';
 import ChatBox from '../components/negotiations/ChatBox';
@@ -174,6 +175,10 @@ const NegotiationRoom = () => {
 
   return (
     <div className="h-[calc(100vh-64px)] lg:h-[calc(100vh-120px)] flex flex-col lg:flex-row gap-4 lg:gap-6 relative p-2 md:p-6 lg:p-0">
+      <SEO 
+        title={`Negotiation: ${deal?.title || 'Room'}`} 
+        description={`Real-time price negotiation for ${deal?.title || 'products'} on DealXpress. Chat directly with the seller.`} 
+      />
       {isAccepted && successAnimation && (
         <div className="absolute inset-0 z-50 pointer-events-none flex items-center justify-center">
           <div className="w-64 h-64 md:w-96 md:h-96">

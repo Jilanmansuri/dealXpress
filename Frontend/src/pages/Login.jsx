@@ -15,6 +15,7 @@ import {
 import { login, reset, googleLogin as googleLoginThunk } from '../features/auth/authSlice';
 import Button from '../components/common/Button';
 import { GoogleLogin } from '@react-oauth/google';
+import SEO from '../components/common/SEO';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -60,6 +61,10 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <SEO 
+        title="Login" 
+        description="Sign in to your DealXpress account to manage your negotiations, orders, and business dashboard." 
+      />
       {/* Background decoration */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-50 rounded-full blur-[120px]" />
