@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import NegotiationCard from '../components/negotiations/NegotiationCard';
+import SEO from '../components/common/SEO';
 
 const Negotiations = () => {
   const { user } = useSelector((state) => state.auth);
@@ -82,6 +83,10 @@ const Negotiations = () => {
 
   return (
     <div className="space-y-8 pb-10">
+      <SEO 
+        title="My Negotiations" 
+        description="Manage your ongoing offers, counter-proposals, and track your active deals on DealXpress." 
+      />
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>

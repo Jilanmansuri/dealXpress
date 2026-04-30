@@ -16,6 +16,7 @@ import {
 import { register, reset, googleLogin as googleLoginThunk } from '../features/auth/authSlice';
 import Button from '../components/common/Button';
 import { GoogleLogin } from '@react-oauth/google';
+import SEO from '../components/common/SEO';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -63,6 +64,10 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <SEO 
+        title="Create Account" 
+        description="Join DealXpress today to start negotiating deals, tracking shipments, and growing your business in a smart marketplace." 
+      />
       {/* Background decoration */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-50 rounded-full blur-[120px]" />

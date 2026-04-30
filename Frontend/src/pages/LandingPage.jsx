@@ -27,6 +27,7 @@ import Button from '../components/common/Button';
 import Spline from '@splinetool/react-spline';
 import { Suspense, useState } from 'react';
 import ErrorBoundary from '../components/common/ErrorBoundary';
+import SEO from '../components/common/SEO';
 
 const Hero = () => {
   const [splineError, setSplineError] = useState(false);
@@ -236,6 +237,10 @@ const CTA = () => {
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-white">
+      <SEO 
+        title="Welcome" 
+        description="DealXpress is the ultimate marketplace for smart negotiations and seamless logistics. Negotiate directly for the best prices." 
+      />
       <Navbar />
       <main>
         <Hero />

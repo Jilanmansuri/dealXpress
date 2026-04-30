@@ -5,6 +5,7 @@ import { updateProfile, updatePassword, logout, reset } from '../features/auth/a
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import SEO from '../components/common/SEO';
 
 const Account = () => {
   const dispatch = useDispatch();
@@ -84,6 +85,10 @@ const Account = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-12">
+      <SEO 
+        title="Account Settings" 
+        description="Manage your profile, security preferences, and notification settings on DealXpress." 
+      />
       <div>
         <h1 className="text-[28px] font-bold text-gray-900 tracking-tight mb-1">Account Settings</h1>
         <p className="text-[15px] text-gray-500 font-medium">Manage your personal information and preferences.</p>

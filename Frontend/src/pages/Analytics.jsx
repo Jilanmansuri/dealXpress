@@ -3,6 +3,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { TrendingUp, Users, ShoppingBag, DollarSign, ArrowUpRight, ArrowDownRight, Loader2, Calendar, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import SEO from '../components/common/SEO';
 
 const Analytics = () => {
   const [orders, setOrders] = useState([]);
@@ -58,6 +59,10 @@ const Analytics = () => {
 
   return (
     <div className="space-y-8 pb-10">
+      <SEO 
+        title="Platform Analytics" 
+        description="Gain real-time insights into your business performance, revenue trends, and order distribution on DealXpress." 
+      />
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1 className="text-[28px] font-bold text-gray-900 tracking-tight mb-1">Platform Analytics</h1>
