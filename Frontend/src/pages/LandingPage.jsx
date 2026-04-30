@@ -33,19 +33,19 @@ const Hero = () => {
   const [splineError, setSplineError] = useState(false);
 
   const SplineFallback = () => (
-    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-50 to-white">
+    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-gray-950">
       <div className="text-center p-8">
-        <div className="w-20 h-20 bg-indigo-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
-          <Sparkles className="w-10 h-10 text-indigo-600" />
+        <div className="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/30 rounded-3xl flex items-center justify-center mx-auto mb-4">
+          <Sparkles className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
         </div>
-        <h3 className="text-xl font-black text-gray-900 mb-2">Premium 3D Experience</h3>
-        <p className="text-gray-500 text-sm font-medium">Interactive visualization is loading or temporarily unavailable.</p>
+        <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2">Premium 3D Experience</h3>
+        <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Interactive visualization is loading or temporarily unavailable.</p>
       </div>
     </div>
   );
 
   return (
-    <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-mesh">
+    <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-mesh transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -55,25 +55,25 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
             className="text-left"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 mb-8">
-              <Sparkles className="w-4 h-4 text-indigo-600" />
-              <span className="text-sm font-bold text-indigo-600 uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800 mb-8">
+              <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              <span className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
                 SHOPPING REVOLUTION
               </span>
             </div>
             
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-gray-900 mb-8 tracking-tight leading-[1.05]">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-gray-900 dark:text-white mb-8 tracking-tight leading-[1.05]">
               Shop Smart.<br />
               <span className="text-gradient">Save More.</span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-600 max-w-xl mb-12 font-medium leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-xl mb-12 font-medium leading-relaxed">
               Discover amazing products, negotiate directly for the best price, 
               and get fast delivery straight to your door.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-start gap-4 mb-10">
-              <Button to="/signup" className="w-full sm:w-auto px-10 py-5 text-lg rounded-2xl shadow-xl shadow-indigo-200">
+              <Button to="/signup" className="w-full sm:w-auto px-10 py-5 text-lg rounded-2xl shadow-xl shadow-indigo-200 dark:shadow-indigo-900/20">
                 Start Free Trial
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
@@ -82,15 +82,15 @@ const Hero = () => {
               </Button>
             </div>
 
-            <div className="flex items-center gap-4 text-gray-500 font-medium">
+            <div className="flex items-center gap-4 text-gray-500 dark:text-gray-400 font-medium">
               <div className="flex -space-x-3">
                 {[1, 2, 3, 4].map(i => (
-                  <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-gray-100 overflow-hidden">
+                  <div key={i} className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-900 bg-gray-100 dark:bg-gray-800 overflow-hidden">
                     <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i + 10}`} alt="avatar" />
                   </div>
                 ))}
               </div>
-              <span className="text-sm"><strong className="text-gray-900">2.5k+</strong> users joined this week</span>
+              <span className="text-sm"><strong className="text-gray-900 dark:text-white">2.5k+</strong> users joined this week</span>
             </div>
           </motion.div>
 
@@ -102,7 +102,7 @@ const Hero = () => {
             className="relative h-[500px] lg:h-[600px] w-full"
           >
             {/* Spline 3D Scene with Robust Error Handling */}
-            <div className="absolute inset-0 z-0 rounded-[3rem] overflow-hidden bg-indigo-50/30 border border-indigo-100/50">
+            <div className="absolute inset-0 z-0 rounded-[3rem] overflow-hidden bg-indigo-50/30 dark:bg-indigo-950/20 border border-indigo-100/50 dark:border-indigo-900/30">
               <ErrorBoundary fallback={<SplineFallback />}>
                 <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-indigo-600" /></div>}>
                   <Spline 
@@ -119,12 +119,12 @@ const Hero = () => {
               className="absolute top-1/4 -right-4 glass p-4 rounded-2xl shadow-2xl border-white/50 w-48 hidden md:block z-10"
             >
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                  <CreditCard className="w-4 h-4 text-indigo-600" />
+                <div className="w-8 h-8 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center">
+                  <CreditCard className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                 </div>
                 <div className="text-[10px] font-black text-gray-400 uppercase">Current Offer</div>
               </div>
-              <div className="text-xl font-black text-gray-900">$1,250.00</div>
+              <div className="text-xl font-black text-gray-900 dark:text-white">$1,250.00</div>
               <div className="text-[10px] text-emerald-600 font-bold mt-1">✓ ACCEPTED BY SELLER</div>
             </motion.div>
 
@@ -134,13 +134,13 @@ const Hero = () => {
               className="absolute bottom-1/4 -left-8 glass p-4 rounded-2xl shadow-2xl border-white/50 w-56 hidden md:block z-10"
             >
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
-                  <Target className="w-4 h-4 text-amber-600" />
+                <div className="w-8 h-8 bg-amber-100 dark:bg-amber-900/50 rounded-lg flex items-center justify-center">
+                  <Target className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                 </div>
                 <div className="text-[10px] font-black text-gray-400 uppercase">Savings Tracked</div>
               </div>
-              <div className="text-xl font-black text-gray-900">$18,240.50</div>
-              <div className="w-full bg-gray-100 h-1.5 rounded-full mt-2 overflow-hidden">
+              <div className="text-xl font-black text-gray-900 dark:text-white">$18,240.50</div>
+              <div className="w-full bg-gray-100 dark:bg-gray-800 h-1.5 rounded-full mt-2 overflow-hidden">
                 <div className="bg-amber-500 h-full w-3/4" />
               </div>
             </motion.div>
@@ -159,11 +159,11 @@ const Steps = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-32 bg-indigo-50/50">
+    <section id="how-it-works" className="py-32 bg-indigo-50/50 dark:bg-indigo-950/10 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-24">
-          <h2 className="text-5xl font-black text-gray-900 mb-6 tracking-tight">Three Steps to Success</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto font-medium">
+          <h2 className="text-5xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">Three Steps to Success</h2>
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium">
             Shopping made simple. We've made it easier than ever to get exactly what you want at the price you want.
           </p>
         </div>
@@ -172,21 +172,21 @@ const Steps = () => {
           {steps.map((step, idx) => (
             <div key={idx} className="relative z-10">
               <div className="mb-10 relative inline-block">
-                <div className="w-24 h-24 rounded-3xl bg-white shadow-xl flex items-center justify-center border border-gray-100 relative z-10">
-                  <step.icon className="w-10 h-10 text-indigo-600" />
+                <div className="w-24 h-24 rounded-3xl bg-white dark:bg-gray-900 shadow-xl flex items-center justify-center border border-gray-100 dark:border-gray-800 relative z-10">
+                  <step.icon className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
                 </div>
-                <div className="absolute -top-6 -right-6 text-8xl font-black text-gray-100/80 -z-10">
+                <div className="absolute -top-6 -right-6 text-8xl font-black text-gray-100/80 dark:text-gray-800/20 -z-10">
                   0{idx + 1}
                 </div>
               </div>
-              <h3 className="text-3xl font-black text-gray-900 mb-4">{step.title}</h3>
-              <p className="text-lg text-gray-600 leading-relaxed font-medium">
+              <h3 className="text-3xl font-black text-gray-900 dark:text-white mb-4">{step.title}</h3>
+              <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
                 {step.desc}
               </p>
             </div>
           ))}
           {/* Connector Line (Desktop) */}
-          <div className="hidden lg:block absolute top-12 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-100 to-transparent z-0" />
+          <div className="hidden lg:block absolute top-12 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-100 dark:via-indigo-900/50 to-transparent z-0" />
         </div>
       </div>
     </section>
@@ -201,7 +201,7 @@ const CTA = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="relative rounded-[4rem] overflow-hidden bg-indigo-600 py-24 px-8 md:px-20 text-center shadow-2xl shadow-indigo-200"
+          className="relative rounded-[4rem] overflow-hidden bg-indigo-600 py-24 px-8 md:px-20 text-center shadow-2xl shadow-indigo-200 dark:shadow-indigo-900/40"
         >
           {/* Abstract background shapes */}
           <div className="absolute top-0 left-0 w-full h-full -z-0">
@@ -236,7 +236,7 @@ const CTA = () => {
 
 const LandingPage = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
       <SEO 
         title="Welcome" 
         description="DealXpress is the ultimate marketplace for smart negotiations and seamless logistics. Negotiate directly for the best prices." 
