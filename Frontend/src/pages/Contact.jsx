@@ -45,14 +45,14 @@ const Contact = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
+    <div className="max-w-7xl mx-auto px-4 py-12 transition-colors duration-300">
       <SEO 
         title="Contact Us" 
         description="Have questions or need support? Contact the DealXpress team for help with your negotiations, account, or logistics." 
       />
       <div className="text-center mb-16">
-        <h1 className="text-4xl font-black text-gray-900 mb-4 tracking-tight">Get in Touch</h1>
-        <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+        <h1 className="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">Get in Touch</h1>
+        <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
           Have questions about our platform or need help with a deal? Our team is here to support you 24/7.
         </p>
       </div>
@@ -60,29 +60,29 @@ const Contact = () => {
       <div className="grid lg:grid-cols-3 gap-12">
         {/* Contact Info */}
         <div className="space-y-8">
-          <div className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Contact Information</h3>
+          <div className="bg-white dark:bg-gray-900 p-8 rounded-[2rem] border border-gray-100 dark:border-gray-800 shadow-sm">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Contact Information</h3>
             
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center shrink-0">
-                  <Mail className="w-6 h-6 text-indigo-600" />
+                <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl flex items-center justify-center shrink-0">
+                  <Mail className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Email Us</div>
-                  <div className="text-gray-900 font-bold">jilan2410@gmail.com</div>
+                  <div className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Email Us</div>
+                  <div className="text-gray-900 dark:text-white font-bold">jilan2410@gmail.com</div>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center shrink-0">
-                  <MessageCircle className="w-6 h-6 text-emerald-600" />
+                <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl flex items-center justify-center shrink-0">
+                  <MessageCircle className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">WhatsApp</div>
+                  <div className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">WhatsApp</div>
                   <button 
                     onClick={openWhatsApp}
-                    className="text-emerald-600 font-bold hover:underline"
+                    className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline cursor-pointer"
                   >
                     Start a Conversation
                   </button>
@@ -90,22 +90,22 @@ const Contact = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center shrink-0">
-                  <MapPin className="w-6 h-6 text-amber-600" />
+                <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-2xl flex items-center justify-center shrink-0">
+                  <MapPin className="w-6 h-6 text-amber-600 dark:text-amber-400" />
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Our Office</div>
-                  <div className="text-gray-900 font-bold text-sm">123 Innovation Drive, Tech Valley, CA 94043</div>
+                  <div className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Our Office</div>
+                  <div className="text-gray-900 dark:text-white font-bold text-sm">123 Innovation Drive, Tech Valley, CA 94043</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-indigo-600 p-8 rounded-[2rem] text-white shadow-xl shadow-indigo-200 relative overflow-hidden">
+          <div className="bg-indigo-600 p-8 rounded-[2rem] text-white shadow-xl shadow-indigo-200 dark:shadow-none relative overflow-hidden">
              <div className="relative z-10">
                <h3 className="text-xl font-bold mb-2">Fastest Response</h3>
                <p className="text-indigo-100 mb-6 text-sm">Join our Discord community for instant support from our experts.</p>
-               <button className="bg-white text-indigo-600 px-6 py-3 rounded-xl font-bold text-sm w-full hover:bg-indigo-50 transition-colors">
+               <button className="bg-white text-indigo-600 px-6 py-3 rounded-xl font-bold text-sm w-full hover:bg-indigo-50 transition-colors cursor-pointer">
                  Join Discord Community
                </button>
              </div>
@@ -115,11 +115,11 @@ const Contact = () => {
 
         {/* Contact Form */}
         <div className="lg:col-span-2">
-          <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-gray-100 shadow-xl shadow-gray-200/20">
+          <div className="bg-white dark:bg-gray-900 p-8 md:p-12 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-xl shadow-gray-200/20 dark:shadow-none">
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-700 ml-1">Full Name</label>
+                  <label className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">Full Name</label>
                   <input 
                     required
                     type="text" 
@@ -127,11 +127,11 @@ const Contact = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     placeholder="Enter your name" 
-                    className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white focus:border-indigo-500 transition-all font-medium"
+                    className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white dark:focus:bg-gray-900 focus:border-indigo-500 transition-all font-medium text-gray-900 dark:text-white"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-700 ml-1">Email Address</label>
+                  <label className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">Email Address</label>
                   <input 
                     required
                     type="email" 
@@ -139,13 +139,13 @@ const Contact = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                     placeholder="Enter your email" 
-                    className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white focus:border-indigo-500 transition-all font-medium"
+                    className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white dark:focus:bg-gray-900 focus:border-indigo-500 transition-all font-medium text-gray-900 dark:text-white"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700 ml-1">Subject</label>
+                <label className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">Subject</label>
                 <input 
                   required
                   type="text" 
@@ -153,12 +153,12 @@ const Contact = () => {
                   value={formData.subject}
                   onChange={(e) => setFormData({...formData, subject: e.target.value})}
                   placeholder="How can we help?" 
-                  className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white focus:border-indigo-500 transition-all font-medium"
+                  className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white dark:focus:bg-gray-900 focus:border-indigo-500 transition-all font-medium text-gray-900 dark:text-white"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-gray-700 ml-1">Message</label>
+                <label className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">Message</label>
                 <textarea 
                   required
                   rows={5}
@@ -166,14 +166,14 @@ const Contact = () => {
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                   placeholder="Tell us more about your inquiry..." 
-                  className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white focus:border-indigo-500 transition-all font-medium resize-none"
+                  className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:bg-white dark:focus:bg-gray-900 focus:border-indigo-500 transition-all font-medium text-gray-900 dark:text-white resize-none"
                 />
               </div>
 
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-indigo-600 text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-indigo-600/20 hover:bg-indigo-700 transition-all flex items-center justify-center gap-3 disabled:opacity-70"
+                className="w-full bg-indigo-600 text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-indigo-600/20 hover:bg-indigo-700 transition-all flex items-center justify-center gap-3 disabled:opacity-70 cursor-pointer"
               >
                 {isSubmitting ? (
                    <CheckCircle2 className="w-6 h-6 animate-pulse" />

@@ -60,15 +60,15 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center p-4 transition-colors duration-300 overflow-hidden">
       <SEO 
         title="Login" 
         description="Sign in to your DealXpress account to manage your negotiations, orders, and business dashboard." 
       />
       {/* Background decoration */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-50 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-violet-50 rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-50 dark:bg-indigo-900/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-violet-50 dark:bg-violet-900/10 rounded-full blur-[120px]" />
       </div>
 
       <motion.div 
@@ -77,9 +77,9 @@ const Login = () => {
         transition={{ duration: 0.5 }}
         className="w-full max-w-xl relative z-10"
       >
-        <div className="glass rounded-[3rem] p-8 md:p-12 shadow-2xl border-white/50 bg-white/40 backdrop-blur-xl">
+        <div className="glass rounded-[3rem] p-8 md:p-12 shadow-2xl border border-white/50 dark:border-gray-800 bg-white/40 dark:bg-gray-900/40 backdrop-blur-xl">
           <div className="flex justify-between items-start mb-10">
-            <Link to="/" className="p-3 bg-gray-50 rounded-2xl hover:bg-white hover:shadow-md transition-all text-gray-400 hover:text-indigo-600">
+            <Link to="/" className="p-3 bg-gray-50 dark:bg-gray-800 rounded-2xl hover:bg-white dark:hover:bg-gray-700 hover:shadow-md transition-all text-gray-400 dark:text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400">
               <ChevronLeft className="w-6 h-6" />
             </Link>
             <div className="text-right">
@@ -87,23 +87,23 @@ const Login = () => {
                 <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <TrendingUp className="text-white w-6 h-6" />
                 </div>
-                <span className="text-xl font-black text-gray-900 tracking-tighter uppercase">
-                  DEAL<span className="text-indigo-600">XPRESS</span>
+                <span className="text-xl font-black text-gray-900 dark:text-white tracking-tighter uppercase">
+                  DEAL<span className="text-indigo-600 dark:text-indigo-400">XPRESS</span>
                 </span>
               </Link>
             </div>
           </div>
 
           <div className="mb-10">
-            <h1 className="text-4xl font-black text-gray-900 mb-3 tracking-tight">Welcome Back</h1>
-            <p className="text-gray-500 font-medium text-lg text-pretty">Enter your credentials to access your business dashboard.</p>
+            <h1 className="text-4xl font-black text-gray-900 dark:text-white mb-3 tracking-tight">Welcome Back</h1>
+            <p className="text-gray-500 dark:text-gray-400 font-medium text-lg text-pretty">Enter your credentials to access your business dashboard.</p>
           </div>
 
           <form onSubmit={onSubmit} className="space-y-6">
             <div className="space-y-4">
               {/* Email Input */}
               <div className="relative group">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-indigo-600 transition-colors w-5 h-5" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 transition-colors w-5 h-5" />
                 <input
                   type="email"
                   name="email"
@@ -111,14 +111,14 @@ const Login = () => {
                   value={email}
                   onChange={onChange}
                   placeholder="Email Address"
-                  className="w-full pl-12 pr-4 py-4 bg-white border border-gray-100 rounded-2xl outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-600 transition-all font-medium text-gray-900 shadow-sm"
+                  className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none focus:ring-4 focus:ring-indigo-100 dark:focus:ring-indigo-900/30 focus:border-indigo-600 dark:focus:border-indigo-500 transition-all font-medium text-gray-900 dark:text-white shadow-sm"
                   required
                 />
               </div>
 
               {/* Password Input */}
               <div className="relative group">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-indigo-600 transition-colors w-5 h-5" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 transition-colors w-5 h-5" />
                 <input
                   type="password"
                   name="password"
@@ -126,14 +126,14 @@ const Login = () => {
                   value={password}
                   onChange={onChange}
                   placeholder="Password"
-                  className="w-full pl-12 pr-4 py-4 bg-white border border-gray-100 rounded-2xl outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-600 transition-all font-medium text-gray-900 shadow-sm"
+                  className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl outline-none focus:ring-4 focus:ring-indigo-100 dark:focus:ring-indigo-900/30 focus:border-indigo-600 dark:focus:border-indigo-500 transition-all font-medium text-gray-900 dark:text-white shadow-sm"
                   required
                 />
               </div>
             </div>
 
             <div className="flex items-center justify-end">
-              <Link to="/forgot-password" size="sm" className="text-sm font-bold text-indigo-600 hover:underline underline-offset-4">
+              <Link to="/forgot-password" size="sm" className="text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline underline-offset-4">
                 Forgot password?
               </Link>
             </div>
@@ -155,10 +155,10 @@ const Login = () => {
 
             <div className="relative my-8">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-100"></div>
+                <div className="w-full border-t border-gray-100 dark:border-gray-800"></div>
               </div>
               <div className="relative flex justify-center text-xs font-black uppercase tracking-[0.2em]">
-                <span className="bg-white px-4 text-gray-400">Or continue with</span>
+                <span className="bg-white dark:bg-gray-900 px-4 text-gray-400 dark:text-gray-500 transition-colors">Or continue with</span>
               </div>
             </div>
 
@@ -177,18 +177,18 @@ const Login = () => {
               />
             </div>
 
-            <div className="text-center mt-8 pt-6 border-t border-gray-50">
-              <p className="text-gray-500 font-medium">
+            <div className="text-center mt-8 pt-6 border-t border-gray-50 dark:border-gray-800">
+              <p className="text-gray-500 dark:text-gray-400 font-medium">
                 Don't have an account yet?{' '}
-                <Link to="/signup" className="text-indigo-600 font-black hover:underline underline-offset-4">
+                <Link to="/signup" className="text-indigo-600 dark:text-indigo-400 font-black hover:underline underline-offset-4">
                   Create Account
                 </Link>
               </p>
             </div>
           </form>
 
-          <div className="mt-12 flex items-center justify-center gap-4 text-xs font-black text-gray-400 uppercase tracking-widest">
-            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+          <div className="mt-12 flex items-center justify-center gap-4 text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">
+            <ShieldCheck className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
             END-TO-END ENCRYPTED AUTH
           </div>
         </div>

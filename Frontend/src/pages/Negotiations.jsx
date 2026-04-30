@@ -90,8 +90,8 @@ const Negotiations = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-[28px] font-bold text-gray-900 tracking-tight mb-1">Negotiations</h1>
-          <p className="text-[15px] text-gray-500 font-medium">
+          <h1 className="text-[28px] font-bold text-gray-900 dark:text-white tracking-tight mb-1">Negotiations</h1>
+          <p className="text-[15px] text-gray-500 dark:text-gray-400 font-medium">
             Manage your ongoing offers and track your deals.
           </p>
         </div>
@@ -104,30 +104,30 @@ const Negotiations = () => {
               placeholder="Search offers..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 w-full md:w-64 transition-all shadow-sm"
+              className="pl-9 pr-4 py-2.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-sm dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 w-full md:w-64 transition-all shadow-sm"
             />
           </div>
-          <button className="p-2.5 bg-white border border-gray-200 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 shadow-sm transition-all">
+          <button className="p-2.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 shadow-sm transition-all cursor-pointer">
             <Filter className="w-4 h-4" />
           </button>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 border-b border-gray-200 overflow-x-auto no-scrollbar">
+      <div className="flex items-center gap-1 border-b border-gray-200 dark:border-gray-800 overflow-x-auto no-scrollbar">
         {tabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`
-              relative px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors
-              ${activeTab === tab.id ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-700'}
+              relative px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer
+              ${activeTab === tab.id ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'}
             `}
           >
             <div className="flex items-center gap-2">
               {tab.label}
               {tab.count && (
-                <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${activeTab === tab.id ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-600'}`}>
+                <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${activeTab === tab.id ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'}`}>
                   {tab.count}
                 </span>
               )}
@@ -135,7 +135,7 @@ const Negotiations = () => {
             {activeTab === tab.id && (
               <motion.div 
                 layoutId="activeTab"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 rounded-t-full"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-t-full"
               />
             )}
           </button>
@@ -154,12 +154,12 @@ const Negotiations = () => {
         ))}
 
         {filteredData.length === 0 && (
-          <div className="text-center py-20 bg-gray-50/50 rounded-2xl border border-gray-100 border-dashed">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-gray-100">
-              <MessageSquare className="w-6 h-6 text-gray-300" />
+          <div className="text-center py-20 bg-gray-50/50 dark:bg-gray-900/30 rounded-2xl border border-gray-100 dark:border-gray-800 border-dashed">
+            <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-gray-100 dark:border-gray-800">
+              <MessageSquare className="w-6 h-6 text-gray-300 dark:text-gray-600" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-1">No negotiations found</h3>
-            <p className="text-gray-500 text-sm">There are no offers matching this filter.</p>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">No negotiations found</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">There are no offers matching this filter.</p>
           </div>
         )}
       </div>
