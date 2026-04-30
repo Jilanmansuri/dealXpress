@@ -1,68 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Filter, MessageSquare } from 'lucide-react';
+import { Search, Filter, MessageSquare, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 import NegotiationCard from '../components/negotiations/NegotiationCard';
 
-// Mock Data
-const MOCK_NEGOTIATIONS = [
-  {
-    id: 'NEG-1042',
-    product: {
-      name: 'MacBook Pro 16" M3 Max (Sealed)',
-      image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=200',
-    },
-    seller: 'TechWholesale Inc.',
-    originalPrice: 3499.00,
-    currentOffer: 3150.00,
-    status: 'counter',
-    lastUpdated: '2 hours ago',
-    messages: 3
-  },
-  {
-    id: 'NEG-1041',
-    product: {
-      name: 'Herman Miller Aeron Chair',
-      image: 'https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&q=80&w=200',
-    },
-    seller: 'ErgoSolutions',
-    originalPrice: 1250.00,
-    currentOffer: 1100.00,
-    status: 'pending',
-    lastUpdated: '5 hours ago',
-    messages: 1
-  },
-  {
-    id: 'NEG-1039',
-    product: {
-      name: 'Sony A7IV Mirrorless Camera Body',
-      image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=200',
-    },
-    seller: 'CameraBox NYC',
-    originalPrice: 2498.00,
-    currentOffer: 2300.00,
-    status: 'accepted',
-    lastUpdated: '1 day ago',
-    messages: 4
-  },
-  {
-    id: 'NEG-1035',
-    product: {
-      name: 'Samsung 49" Odyssey G9 Monitor',
-      image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=200',
-    },
-    seller: 'PixelPerfect Displays',
-    originalPrice: 1399.00,
-    currentOffer: 1000.00,
-    status: 'rejected',
-    lastUpdated: '2 days ago',
-    messages: 2
-  }
-];
-
 const Negotiations = () => {
+  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [negotiations, setNegotiations] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMyNegotiations = async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+        const res = await axios.get('/api/negotiations/my', config);
+        const formatted = res.data.map(item => ({
+          id: item._id,
+          product: {
+            name: item.productData?.name || item.product?.name || 'Deleted Product',
+            image: item.productData?.image || item.product?.image || 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=200',
+          },
+          seller: item.seller?.name || 'Premium Seller',
+          originalPrice: item.originalPrice,
+          currentOffer: item.currentOffer,
+          status: item.status,
+          lastUpdated: new Date(item.updatedAt).toLocaleDateString(),
+          messages: item.messages?.length || 0
+        }));
+        setNegotiations(formatted);
+      } catch (err) {
+        console.error("Failed to fetch negotiations:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?.token) fetchMyNegotiations();
+  }, [user]);
 
   const tabs = [
     { id: 'all', label: 'All Offers' },
@@ -71,7 +54,13 @@ const Negotiations = () => {
     { id: 'completed', label: 'Completed' }
   ];
 
-  const filteredData = MOCK_NEGOTIATIONS.filter(item => {
+  const filteredData = negotiations.filter(item => {
+    const matchesSearch = item.product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          item.seller.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          item.id.toLowerCase().includes(searchTerm.toLowerCase());
+                          
+    if (!matchesSearch) return false;
+
     if (activeTab === 'all') return true;
     if (activeTab === 'action') return item.status === 'counter';
     if (activeTab === 'pending') return item.status === 'pending';
@@ -79,8 +68,16 @@ const Negotiations = () => {
     return true;
   });
 
+  if (loading) {
+    return (
+      <div className="h-[60vh] flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-indigo-600" />
+      </div>
+    );
+  }
+
   const handleViewChat = (item) => {
-    navigate('/negotiation-room', { state: { deal: item } });
+    navigate(`/negotiation-room/${item.id}`, { state: { deal: item } });
   };
 
   return (
@@ -100,6 +97,8 @@ const Negotiations = () => {
             <input 
               type="text" 
               placeholder="Search offers..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 w-full md:w-64 transition-all shadow-sm"
             />
           </div>
