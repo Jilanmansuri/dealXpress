@@ -31,8 +31,9 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: allowedOrigin.endsWith('/') ? allowedOrigin.slice(0, -1) : allowedOrigin,
   credentials: true
 }));
 app.use(express.json());
